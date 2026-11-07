@@ -30,9 +30,8 @@ ri part1/
 │   └── package.json
 │
 ├── run_app.py                        # Single command to launch Backend + Frontend together
-├── run_backend.py                    # Launches the FastAPI server standalone
-└── tests/
-    └── test_mvc.py                   # Automated end-to-end verification test suite
+├── figures/                          # System screenshots for documentation & report
+└── requirements.txt                  # Lightweight web server dependencies
 ```
 
 ---
