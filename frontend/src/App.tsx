@@ -220,14 +220,10 @@ function App() {
   const [maxDocuments, setMaxDocuments] = useState("50");
   const [jsonExport, setJsonExport] = useState(true);
   const [binaryExport, setBinaryExport] = useState(true);
-  const [datasetPath, setDatasetPath] = useState(
-    "c:\\Users\\benzm\\OneDrive\\Bureau\\RI\\archive (2)",
-  );
 
   // File Upload State (Local Disk Explorer)
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [ingestMode, setIngestMode] = useState<"upload" | "path">("upload");
 
   // Backend state
   const [isBackendConnected, setIsBackendConnected] = useState<boolean>(false);
@@ -396,51 +392,33 @@ function App() {
     showToast("info", "Preset configuration applied.");
   };
 
-  // Real backend call: Load Dataset (Direct Upload from Local Disk or Path)
+  // Real backend call: Load Dataset (Direct Upload from Local Disk)
   const handleLoadDataset = async () => {
+    if (!selectedFile) {
+      showToast("error", "Veuillez sélectionner un fichier (.csv ou .sgm) depuis votre disque local.");
+      return;
+    }
     setLoadState("loading");
     try {
-      if (ingestMode === "upload") {
-        if (!selectedFile) {
-          throw new Error("Please select a file (.csv or .sgm) from your local disk.");
-        }
-        const formData = new FormData();
-        formData.append("file", selectedFile);
-        if (!allDocuments && maxDocuments) {
-          formData.append("max_docs", maxDocuments);
-        }
-        const res = await fetch(`${API_BASE}/dataset/upload`, {
-          method: "POST",
-          body: formData,
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.detail || "Error uploading dataset");
-        }
-        setLoadedCount(data.count);
-        setLoadState("loaded");
-        setIsBackendConnected(true);
-        showToast("success", `Loaded ${data.count} documents from '${selectedFile.name}' (${data.size_mb} MB).`);
-      } else {
-        const res = await fetch(`${API_BASE}/dataset/load`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            path: datasetPath,
-            max_docs: allDocuments ? null : Number(maxDocuments),
-          }),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.detail || "Error loading dataset");
-        }
-        setLoadedCount(data.count);
-        setLoadState("loaded");
-        setIsBackendConnected(true);
-        showToast("success", `Loaded ${data.count} documents from disk path.`);
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      if (!allDocuments && maxDocuments) {
+        formData.append("max_docs", maxDocuments);
       }
+      const res = await fetch(`${API_BASE}/dataset/upload`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.detail || "Erreur lors du chargement des documents");
+      }
+      setLoadedCount(data.count);
+      setLoadState("loaded");
+      setIsBackendConnected(true);
+      showToast("success", `${data.count} articles Reuters chargés depuis '${selectedFile.name}' (${data.size_mb} MB).`);
     } catch (err: any) {
-      showToast("error", err.message || "Failed to load dataset.");
+      showToast("error", err.message || "Impossible de charger le fichier.");
       setLoadState("idle");
     }
   };
@@ -587,137 +565,83 @@ function App() {
         <aside className="space-y-5">
           {/* Section 1: Ingestion - Bouton/Explorateur Disque Local */}
           <section className="card p-6">
-            <div className="section-heading justify-between">
-              <div className="flex items-start gap-2.5">
-                <span className="step-badge">1</span>
-                <div>
-                  <h2>Sélection des Données</h2>
-                  <p>Charger les documents depuis le disque local</p>
-                </div>
-              </div>
-              <div className="flex gap-1 text-[11px] font-semibold bg-slate-100 p-0.5 rounded-lg border border-slate-200">
-                <button
-                  type="button"
-                  onClick={() => setIngestMode("upload")}
-                  className={`px-2 py-0.5 rounded transition ${
-                    ingestMode === "upload" ? "bg-white text-blue-700 shadow-2xs font-bold" : "text-slate-500 hover:text-slate-700"
-                  }`}
-                >
-                  Fichier
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIngestMode("path")}
-                  className={`px-2 py-0.5 rounded transition ${
-                    ingestMode === "path" ? "bg-white text-blue-700 shadow-2xs font-bold" : "text-slate-500 hover:text-slate-700"
-                  }`}
-                >
-                  Chemin
-                </button>
+            <div className="section-heading">
+              <span className="step-badge">1</span>
+              <div>
+                <h2>Sélection des Données</h2>
+                <p>Charger les documents depuis le disque local</p>
               </div>
             </div>
 
             <div className="mt-4 space-y-4">
-              {ingestMode === "upload" ? (
-                <div>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".csv,.sgm,.txt"
-                    className="hidden"
-                    onChange={(event) => {
-                      const file = event.target.files?.[0];
+              <div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".csv,.sgm,.txt"
+                  className="hidden"
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    if (file) setSelectedFile(file);
+                  }}
+                />
+                {!selectedFile ? (
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setIsDragging(true);
+                    }}
+                    onDragLeave={() => setIsDragging(false)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setIsDragging(false);
+                      const file = e.dataTransfer.files?.[0];
                       if (file) setSelectedFile(file);
                     }}
-                  />
-                  {!selectedFile ? (
-                    <div
-                      onClick={() => fileInputRef.current?.click()}
-                      onDragOver={(e) => {
-                        e.preventDefault();
-                        setIsDragging(true);
-                      }}
-                      onDragLeave={() => setIsDragging(false)}
-                      onDrop={(e) => {
-                        e.preventDefault();
-                        setIsDragging(false);
-                        const file = e.dataTransfer.files?.[0];
-                        if (file) setSelectedFile(file);
-                      }}
-                      className={`cursor-pointer border-2 border-dashed rounded-xl p-5 text-center transition-all ${
-                        isDragging
-                          ? "border-blue-500 bg-blue-50/70"
-                          : "border-slate-300 hover:border-blue-400 bg-slate-50/40 hover:bg-blue-50/20"
-                      }`}
-                    >
-                      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600 mb-2">
-                        <Icon.Upload className="h-5 w-5" />
-                      </div>
-                      <p className="text-xs font-semibold text-slate-800">
-                        Cliquer pour explorer le disque local
-                      </p>
-                      <p className="text-[11px] text-slate-500 mt-0.5">
-                        ou glisser-déposer le fichier Reuters-21578 (.csv ou .sgm)
-                      </p>
+                    className={`cursor-pointer border-2 border-dashed rounded-xl p-5 text-center transition-all ${
+                      isDragging
+                        ? "border-blue-500 bg-blue-50/70"
+                        : "border-slate-300 hover:border-blue-400 bg-slate-50/40 hover:bg-blue-50/20"
+                    }`}
+                  >
+                    <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600 mb-2">
+                      <Icon.Upload className="h-5 w-5" />
                     </div>
-                  ) : (
-                    <div className="flex items-center justify-between p-3 rounded-lg border border-blue-200 bg-blue-50/50">
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="h-8 w-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 shrink-0">
-                          <Icon.FileText className="h-4 w-4" />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-xs font-bold text-slate-900 truncate">{selectedFile.name}</p>
-                          <p className="text-[10.5px] text-slate-500">
-                            {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB · Prêt au chargement
-                          </p>
-                        </div>
+                    <p className="text-xs font-semibold text-slate-800">
+                      Cliquer pour explorer le disque local
+                    </p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      ou glisser-déposer le fichier Reuters-21578 (.csv ou .sgm)
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-between p-3 rounded-lg border border-blue-200 bg-blue-50/50">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="h-8 w-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 shrink-0">
+                        <Icon.FileText className="h-4 w-4" />
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedFile(null);
-                          if (fileInputRef.current) fileInputRef.current.value = "";
-                        }}
-                        className="text-slate-400 hover:text-slate-700 p-1 rounded-md hover:bg-slate-200"
-                        title="Changer de fichier"
-                      >
-                        <Icon.X className="h-4 w-4" />
-                      </button>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-slate-900 truncate">{selectedFile.name}</p>
+                        <p className="text-[10.5px] text-slate-500">
+                          {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB · Prêt au chargement
+                        </p>
+                      </div>
                     </div>
-                  )}
-                </div>
-              ) : (
-                <label className="field-label">
-                  Chemin du dossier / fichier local
-                  <div className="mt-1.5 flex">
-                    <input
-                      value={datasetPath}
-                      onChange={(event) => setDatasetPath(event.target.value)}
-                      className="input rounded-r-none font-mono text-[12px]"
-                      aria-label="Dataset path"
-                    />
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept=".csv,.sgm"
-                      className="hidden"
-                      onChange={(event) => {
-                        const file = event.target.files?.[0];
-                        if (file) setDatasetPath((file as any).path || file.name);
-                      }}
-                    />
                     <button
                       type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="browse-button"
+                      onClick={() => {
+                        setSelectedFile(null);
+                        if (fileInputRef.current) fileInputRef.current.value = "";
+                      }}
+                      className="text-slate-400 hover:text-slate-700 p-1 rounded-md hover:bg-slate-200"
+                      title="Changer de fichier"
                     >
-                      <Icon.Folder className="h-3.5 w-3.5" />
-                      Parcourir…
+                      <Icon.X className="h-4 w-4" />
                     </button>
                   </div>
-                </label>
-              )}
+                )}
+              </div>
 
               <div className="grid grid-cols-[1fr_auto] items-end gap-4">
                 <label className="field-label">
@@ -749,7 +673,7 @@ function App() {
                 <button
                   type="button"
                   onClick={handleLoadDataset}
-                  disabled={loadState === "loading" || (ingestMode === "upload" && !selectedFile)}
+                  disabled={loadState === "loading" || !selectedFile}
                   className="secondary-button flex-1 justify-center disabled:opacity-50"
                 >
                   <Icon.Upload className="h-4 w-4 text-blue-600" />
