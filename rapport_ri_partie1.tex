@@ -1,9 +1,9 @@
 \documentclass[11pt,a4paper]{article}
 
-% --- Packages Fondamentaux ---
+% --- Fundamental Packages ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[french]{babel}
+\usepackage[english]{babel}
 \usepackage{lmodern}
 \usepackage{amsmath,amssymb}
 \usepackage{geometry}
@@ -20,26 +20,26 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,positioning,calc}
 
-% --- Palette de Couleurs Professionnelle ---
-\definecolor{primaryblue}{RGB}{37, 99, 235}     % Bleu royal (#2563eb)
-\definecolor{darkblue}{RGB}{30, 58, 138}        % Bleu nuit
-\definecolor{emeraldgreen}{RGB}{16, 185, 129}   % Vert émeraude (#10b981)
-\definecolor{lightbg}{RGB}{248, 250, 252}       % Gris très clair
-\definecolor{bordergray}{RGB}{226, 232, 240}    % Bordure
+% --- Professional Color Palette ---
+\definecolor{primaryblue}{RGB}{37, 99, 235}     % Royal Blue (#2563eb)
+\definecolor{darkblue}{RGB}{30, 58, 138}        % Navy Blue
+\definecolor{emeraldgreen}{RGB}{16, 185, 129}   % Emerald Green (#10b981)
+\definecolor{lightbg}{RGB}{248, 250, 252}       % Slate Light
+\definecolor{bordergray}{RGB}{226, 232, 240}    % Border Gray
 \definecolor{codegray}{RGB}{241, 245, 249}
 \definecolor{textgray}{RGB}{71, 85, 105}
 
-% --- Configuration Hyperref ---
+% --- Hyperref Setup ---
 \hypersetup{
     colorlinks=true,
     linkcolor=darkblue,
     citecolor=primaryblue,
     urlcolor=primaryblue,
-    pdftitle={Rapport de Recherche d'Information - Partie 1/3},
+    pdftitle={Information Retrieval Project Report - Part 1/3},
     pdfauthor={Mehdi BENZINEB}
 }
 
-% --- Configuration Listings (Code) ---
+% --- Listings (Code) Configuration ---
 \lstdefinestyle{pythoncode}{
     backgroundcolor=\color{codegray},
     commentstyle=\color{textgray}\itshape,
@@ -62,16 +62,16 @@
 }
 \lstset{style=pythoncode}
 
-% --- Entêtes et Pieds de Page ---
+% --- Headers and Footers ---
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\color{textgray}\textit{Recherche d'Information (RI) - Partie 1/3}}
-\fancyhead[R]{\small\color{textgray}\textit{Interface Administrateur d'Indexation Dynamique}}
+\fancyhead[L]{\small\color{textgray}\textit{Information Retrieval (IR) - Part 1/3}}
+\fancyhead[R]{\small\color{textgray}\textit{Dynamic Indexing Administrator Interface}}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\footrulewidth}{0.5pt}
 
-% --- Titres de Sections Stylisés ---
+% --- Styled Section Titles ---
 \titleformat{\section}
   {\normalfont\Large\bfseries\color{darkblue}}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
 \titleformat{\subsection}
@@ -80,25 +80,25 @@
   {\normalfont\normalsize\bfseries\color{slate}}{\thesubsubsection}{1em}{}
 
 % ==============================================================================
-% DOCUMENT PRINCIPAL
+% MAIN DOCUMENT
 % ==============================================================================
 \begin{document}
 
 % ------------------------------------------------------------------------------
-% PAGE DE GARDE
+% TITLE PAGE
 % ------------------------------------------------------------------------------
 \begin{titlepage}
     \centering
     \vspace*{1.5cm}
     
-    {\large \textbf{Niveau : Ingénierie en Intelligence Artificielle (Semestre 9)}}\\[0.3cm]
-    {\Large \textbf{\color{darkblue} Module : Recherche d'Information (RI)}}\\[2cm]
+    {\large \textbf{Level: Artificial Intelligence Engineering (Semester 9)}}\\[0.3cm]
+    {\Large \textbf{\color{darkblue} Module: Information Retrieval (IR)}}\\[2cm]
     
     \begin{tcolorbox}[colback=lightbg,colframe=primaryblue,arc=3mm,width=0.95\textwidth,boxrule=1.5pt]
         \centering
         \vspace{0.4cm}
-        {\LARGE \textbf{Projet de Recherche d'Information (Partie 1/3)}}\\[0.4cm]
-        {\Large \textbf{\color{darkblue} Interface Administrateur d'Indexation Dynamique}}\\[0.2cm]
+        {\LARGE \textbf{Information Retrieval Project (Part 1/3)}}\\[0.4cm]
+        {\Large \textbf{\color{darkblue} Dynamic Indexing Administrator Interface}}\\[0.2cm]
         \vspace{0.4cm}
     \end{tcolorbox}
     
@@ -106,13 +106,20 @@
     
     \begin{minipage}{0.6\textwidth}
         \centering
-        \textbf{\large Réalisé par :}\\[0.2cm]
+        \textbf{\large Submitted by:}\\[0.2cm]
         {\Large \textbf{Mehdi BENZINEB}}
     \end{minipage}
 
     \vfill
     
-    {\large Année Universitaire 2026--2027}
+    \begin{tcolorbox}[colback=emeraldgreen!10,colframe=emeraldgreen,arc=2mm,width=0.85\textwidth,center]
+        \centering
+        \textbf{Implementation Requirement:} 100\% \textit{"From Scratch"}\\
+        \small (Zero high-level NLP libraries: built without NLTK, spaCy, scikit-learn, gensim, or complex regular expressions)
+    \end{tcolorbox}
+    
+    \vspace{0.8cm}
+    {\large Academic Year 2026--2027}
 \end{titlepage}
 
 \newpage
@@ -120,41 +127,53 @@
 \newpage
 
 % ------------------------------------------------------------------------------
-% 1. INTRODUCTION & OBJECTIFS GLOBAUX
+% 1. INTRODUCTION & GLOBAL OBJECTIVES
 % ------------------------------------------------------------------------------
-\section{Introduction et Contexte du Projet}
+\section{Introduction and Project Overview}
 
-\subsection{Objectif Global du Projet Semestriel}
-L'objectif général de ce projet de fin de semestre est de concevoir et de déployer une solution logicielle complète de \textbf{Moteur de Recherche d'Information Intelligent} de bout en bout. Le cycle de vie complet du projet s'articule autour de deux volets complémentaires :
-\begin{enumerate}[label=\textbf{Phase \arabic* :}]
-    \item \textbf{Module Administrateur (Ce travail --- 4 semaines) :} Préparation des données textuelles brutes, ingénierie de la chaîne de traitement linguistique (pipeline NLP paramétrable et réordonnable), calcul matriciel multi-modèles (BoW, F, TF normalisé, TF-IDF), analyse comparée de l'empreinte mémoire vive (RAM) et sérialisation des structures pour réutilisation ultérieure.
-    \item \textbf{Module Client / Guest (Phase 2) :} Interface de consultation et de recherche pour l'utilisateur final permettant la saisie de requêtes libres, le calcul de scores de pertinence (matching cosinus, produit scalaire) et le classement Top-$K$ des documents les plus pertinents.
+\subsection{Overall Project Goal}
+The objective of this semester project is to design, develop, and deploy an end-to-end intelligent \textbf{Information Retrieval (IR) Search Engine}. The full project lifecycle is divided into two sequential phases:
+\begin{enumerate}[label=\textbf{Phase \arabic*:}]
+    \item \textbf{Administrator Module (Part 1 --- 4 weeks):} Preparing raw textual data, engineering a dynamic and reorderable Natural Language Processing (NLP) pipeline, computing mathematical multi-model representations (BoW, Frequency, Normalized TF, TF-IDF), monitoring runtime memory footprint (RAM comparison between Matrices and Inverted Indexes), and serializing all generated structures to local disk.
+    \item \textbf{Client / Guest Search Module (Phase 2):} Building an end-user search interface enabling free-text query parsing, similarity matching (cosine similarity, dot product), and top-$K$ document retrieval.
 \end{enumerate}
 
-\subsection{Périmètre Fonctionnel de la Partie 1}
-Dans le cadre de cette première partie, le cahier des charges impose la mise en œuvre d'une interface graphique professionnelle dédiée exclusivement à l'administrateur du moteur. Ce module doit obligatoirement respecter l'ensemble des spécifications suivantes :
+\subsection{Scope and Specifications of Part 1}
+In this first phase, the specifications mandate the creation of a graphical administrator interface (Web Application) dedicated exclusively to the search engine administrator. The application satisfies all functional and non-functional requirements:
 \begin{itemize}[label=\textcolor{primaryblue}{\textbullet}]
-    \item \textbf{Sélection des données :} Chargement direct depuis le disque local d'un sous-ensemble du corpus de référence \textbf{Reuters-21578} (fichiers structurés SGML \texttt{.sgm} ou fichiers tabulaires \texttt{.csv}).
-    \item \textbf{Pipeline NLP Dynamique :} Sélection modulaire par cases à cocher des 5 étapes exigées (\textit{Tag Cleaning, Normalisation, Stopwords Removal, Stemming, Lemmatisation}) et définition interactive de leur ordre d'exécution avec validation des contraintes linguistiques.
-    \item \textbf{Génération Multi-Modèles :} Calcul simultané en tâche de fond de 4 modèles vectoriels :
+    \item \textbf{Data Ingestion:} Loading a subset of the standard \textbf{Reuters-21578} text collection directly from local disk, supporting structured SGML (\texttt{.sgm}) files and tab-delimited/comma-separated (\texttt{.csv}) datasets.
+    \item \textbf{Dynamic NLP Pipeline:} Configurable preprocessing where the administrator can enable/disable individual steps AND define their execution sequence interactively, covering:
     \begin{itemize}
-        \item Modèle Binaire (\textbf{BoW} --- Bag of Words, présence/absence $\in \{0, 1\}$) ;
-        \item Modèle Fréquentiel (\textbf{F} --- occurrences brutes des termes) ;
-        \item Modèle Fréquence Normalisée (\textbf{TF} --- $tf / \max(tf)$) ;
-        \item Modèle Pondéré Global (\textbf{TF-IDF} --- $TF \times IDF$).
+        \item Tag Cleaning (stripping SGML/XML tags and entity references);
+        \item Lexical Normalization (case-folding to lowercase, punctuation removal);
+        \item Stopwords Removal (filtering non-discriminative function words);
+        \item Stemming (Porter-style morphological suffix reduction);
+        \item Lemmatization (canonical dictionary lookup).
     \end{itemize}
-    \item \textbf{Formats d'Output Exigés :} Pour chacun des 4 modèles, production d'une \textbf{Matrice Document-Terme} (Lignes=Mots, Colonnes=Documents), d'une \textbf{Matrice Terme-Document} (Lignes=Documents, Colonnes=Mots) et d'une \textbf{Liste Inversée} (\textit{Posting Lists}).
-    \item \textbf{Monitoring des Données :} Affichage en temps réel du volume de vocabulaire, du nombre de documents traités, et comparaison rigoureuse de la mémoire RAM consommée entre les représentations matricielles et les listes inversées.
-    \item \textbf{Sérialisation :} Sauvegarde pérenne sur le disque dur local sous format texte/JSON et sous format binaire optimisé (\texttt{.pkl}) pour la Phase 2.
-    \item \textbf{Contrainte d'Excellence "From Scratch" :} Interdiction explicite d'utiliser des bibliothèques externes de NLP ou de Machine Learning (NLTK, spaCy, scikit-learn, gensim, ou expressions régulières complexes via \texttt{re}).
+    \item \textbf{Multi-Model Index Generation:} Background generation of four vector models:
+    \begin{itemize}
+        \item Binary Model (\textbf{BoW} --- Bag of Words, presence/absence $\in \{0, 1\}$);
+        \item Frequency Model (\textbf{F} --- raw term occurrences);
+        \item Normalized Term Frequency (\textbf{TF} --- $tf / \max(tf)$);
+        \item Global Weighted Model (\textbf{TF-IDF} --- $TF \times IDF$).
+    \end{itemize}
+    \item \textbf{Required Output Structures:} Generating three representations for each of the four models:
+    \begin{itemize}
+        \item Document-Term Matrix (Rows = Terms, Columns = Documents);
+        \item Term-Document Matrix (Rows = Documents, Columns = Terms);
+        \item Inverted Index (Posting Lists per term).
+    \end{itemize}
+    \item \textbf{Runtime Monitoring:} Real-time post-indexing KPI metrics reporting vocabulary size, indexed document count, and a comparative RAM memory breakdown (Matrices vs. Inverted Index).
+    \item \textbf{Serialization:} Persisting all structures to local disk in both human-readable text/JSON and optimized binary (\texttt{.pkl}) format for immediate reloading in Phase 2.
+    \item \textbf{"From Scratch" Strict Constraint:} Complete manual implementation of parsing and NLP algorithms using Python standard libraries only, strictly avoiding external high-level NLP libraries (NLTK, spaCy, scikit-learn, gensim, or complex regex via \texttt{re}).
 \end{itemize}
 
 % ------------------------------------------------------------------------------
-% 2. ARCHITECTURE LOGICIELLE GLOBALE (MVC)
+% 2. OVERALL SOFTWARE ARCHITECTURE (MVC)
 % ------------------------------------------------------------------------------
-\section{Architecture Logicielle Globale (Patron MVC)}
+\section{Overall Software Architecture (MVC Pattern)}
 
-Afin de garantir une maintenabilité irréprochable et de préparer sans friction l'accueil de la Phase 2 (moteur de recherche client), nous avons structuré l'intégralité du projet selon le patron d'architecture logicielle \textbf{Modèle-Vue-Contrôleur (MVC)}.
+To maintain clean separation of concerns and ensure seamless integration with the upcoming Phase 2 search module, the codebase strictly follows the \textbf{Model-View-Controller (MVC)} architectural pattern.
 
 \begin{figure}[htbp]
 \centering
@@ -166,272 +185,256 @@ Afin de garantir une maintenabilité irréprochable et de préparer sans frictio
     \tikzstyle{view} = [block, draw=emeraldgreen, fill=emeraldgreen!10]
     
     % Nodes
-    \node [view] (view) {\textbf{\large VUE (Frontend)}\\React 19 / TypeScript / Vite\\Tailwind CSS / Dropzone};
-    \node [controller, below of=view, yshift=-0.8cm] (ctrl) {\textbf{\large CONTRÔLEUR}\\FastAPI REST Server (\texttt{app.py})\\\texttt{AdminController.py}};
-    \node [model, below of=ctrl, yshift=-1.2cm] (model) {\textbf{\large MODÈLE (From Scratch)}\\\texttt{parser.py} (SGML / CSV)\\\texttt{nlp.py} (Pipeline 5 étapes)\\\texttt{indexer.py} (4 modèles $\times$ 3 structures)\\\texttt{storage.py} (JSON \& Pickler)};
-    \node [block, right of=ctrl, xshift=4cm, draw=gray, dashed] (disk) {\textbf{Disque Local}\\\texttt{uploads/} (Reuters)\\\texttt{saved\_indexes/} (JSON, PKL)};
+    \node [view] (view) {\textbf{\large VIEW (Frontend)}\\React 19 / TypeScript / Vite\\Tailwind CSS / Dropzone};
+    \node [controller, below of=view, yshift=-0.8cm] (ctrl) {\textbf{\large CONTROLLER}\\FastAPI REST Server (\texttt{app.py})\\\texttt{AdminController.py}};
+    \node [model, below of=ctrl, yshift=-1.2cm] (model) {\textbf{\large MODEL (From Scratch)}\\\texttt{parser.py} (SGML / CSV)\\\texttt{nlp.py} (5-Stage Pipeline)\\\texttt{indexer.py} (4 Models $\times$ 3 Structures)\\\texttt{storage.py} (JSON \& Pickler)};
+    \node [block, right of=ctrl, xshift=4cm, draw=gray, dashed] (disk) {\textbf{Local Disk}\\\texttt{uploads/} (Reuters)\\\texttt{saved\_indexes/} (JSON, PKL)};
 
     % Connectors
-    \draw[->, line width=1.2pt, color=darkblue] (view) -- node[right]{\small Requêtes HTTP JSON / Multipart} (ctrl);
-    \draw[->, line width=1.2pt, color=darkblue] (ctrl) -- node[left]{\small État de l'UI / Métriques / Données paginées} (view);
+    \draw[->, line width=1.2pt, color=darkblue] (view) -- node[right]{\small HTTP Requests / Multipart Upload} (ctrl);
+    \draw[->, line width=1.2pt, color=darkblue] (ctrl) -- node[left]{\small App State / Metrics / Paginated Data} (view);
     
-    \draw[->, line width=1.2pt, color=primaryblue] (ctrl) -- node[right]{\small Ingestion, Ordonnancement, Déclenchement} (model);
-    \draw[->, line width=1.2pt, color=primaryblue] (model) -- node[left]{\small Matrices creuses, Vues, RAM Stats} (ctrl);
+    \draw[->, line width=1.2pt, color=primaryblue] (ctrl) -- node[right]{\small Ingestion, Ordering, Processing} (model);
+    \draw[->, line width=1.2pt, color=primaryblue] (model) -- node[left]{\small Sparse Matrices, Views, RAM Stats} (ctrl);
     
     \draw[<->, line width=1pt, dashed, color=gray] (ctrl) -- (disk);
     \draw[<->, line width=1pt, dashed, color=gray] (model) -| (disk);
 \end{tikzpicture}
-\caption{Architecture Modèle-Vue-Contrôleur (MVC) du Moteur d'Indexation}
+\caption{Model-View-Controller (MVC) Architecture of the Indexing Engine}
 \label{fig:mvc_architecture}
 \end{figure}
 
-\subsection{Organisation des Couches Logicielles}
-L'arborescence du projet sépare strictement les responsabilités métier, réseau et visuelles :
+\subsection{Architectural Layers}
+The repository cleanly separates core business logic, API orchestration, and user presentation:
 \begin{itemize}
-    \item \textbf{Couche Modèle (\texttt{models/}) :} Contient toute la logique mathématique, les algorithmes de fouille de textes et la persistance. Aucune dépendance réseau ni graphique n'y est importée.
+    \item \textbf{Model Layer (\texttt{models/}):} Contains the mathematical logic, text parsing algorithms, and persistence routines. It contains no network or graphical dependencies.
     \begin{itemize}
-        \item \texttt{parser.py} : Ingestion et désérialisation du corpus Reuters (SGML et CSV) sans parser XML ni regex.
-        \item \texttt{nlp.py} : Implémentation manuelle des 5 opérations de nettoyage et racinisation, validation d'ordre.
-        \item \texttt{indexer.py} : Construction matricielle creuse (12 structures simultanées) et calcul récursif de l'empreinte mémoire RAM.
-        \item \texttt{storage.py} : Exportation multi-formats (13 fichiers JSON de matrices et listes inversées, et archive binaire unique \texttt{.pkl}).
+        \item \texttt{parser.py}: Ingests Reuters-21578 files without third-party XML/DOM parsers or regex libraries.
+        \item \texttt{nlp.py}: Hand-coded implementations of the five preprocessing operations and linguistic ordering validation.
+        \item \texttt{indexer.py}: Constructs sparse matrix representations and computes recursive RAM consumption.
+        \item \texttt{storage.py}: Multi-format exporter saving 13 JSON structure files and a self-contained \texttt{.pkl} binary bundle.
     \end{itemize}
-    \item \textbf{Couche Contrôleur (\texttt{controllers/} et \texttt{backend/}) :}
+    \item \textbf{Controller Layer (\texttt{controllers/} and \texttt{backend/}):}
     \begin{itemize}
-        \item \texttt{AdminController.py} : Chef d'orchestre instanciant les modèles, assurant la traçabilité de l'état applicatif et gérant la pagination des données affichées.
-        \item \texttt{app.py} : Serveur REST basé sur FastAPI, exposant les points d'entrée d'upload de fichiers, de monitoring et de requêtage matriciel.
+        \item \texttt{AdminController.py}: Central orchestrator managing state, dataset loading, indexing lifecycle, and table pagination.
+        \item \texttt{app.py}: FastAPI REST API server exposing endpoints for file upload, pipeline configuration, status checks, and data views.
     \end{itemize}
-    \item \textbf{Couche Vue (\texttt{frontend/}) :} Interface moderne développée en React 19, Vite 8 et Tailwind CSS. Elle assure un retour interactif immédiat à l'administrateur (glisser-déposer, réordonnancement visuel du pipeline, badges de poids non nuls, visualiseur d'articles Reuters bruts).
+    \item \textbf{View Layer (\texttt{frontend/}):} Single Page Application built with React 19, TypeScript, Vite 8, and Tailwind CSS, featuring local drag-and-drop file ingestion, visual drag-and-drop pipeline reordering, matrix heatmaps, and a raw article inspector.
 \end{itemize}
 
 % ------------------------------------------------------------------------------
-% 3. ALGORITHMES ET CONCEPTION "FROM SCRATCH"
+% 3. "FROM SCRATCH" ALGORITHMS AND IMPLEMENTATION
 % ------------------------------------------------------------------------------
-\section{Algorithmes et Conception "From Scratch"}
+\section{"From Scratch" Algorithms and Engineering}
 
-Conformément à l'exigence de la section 3 du cahier des charges (bonification accordée aux implémentations manuelles), l'intégralité du traitement algorithmique a été programmée en utilisant \textbf{exclusivement la bibliothèque standard Python} (\texttt{math}, \texttt{sys}, \texttt{os}, \texttt{json}, \texttt{pickle}, \texttt{csv}, \texttt{string}, \texttt{collections}). Aucun recours à \texttt{nltk}, \texttt{spacy}, \texttt{sklearn}, ni même à des expressions régulières complexes du module \texttt{re} n'a été toléré.
+In strict adherence to the project guidelines, all core processing functions were written using **only Python standard library modules** (\texttt{math}, \texttt{sys}, \texttt{os}, \texttt{json}, \texttt{pickle}, \texttt{csv}, \texttt{string}, \texttt{collections}).
 
-\subsection{1. Analyseur Syntaxique Reuters (Parser SGML \& CSV)}
-Le corpus Reuters-21578 utilise un formatage historique dérivé de SGML où les articles sont délimités par des balises ouvrantes \texttt{<REUTERS>} et fermantes \texttt{</REUTERS>}.
+\subsection{1. Reuters Parser (SGML \& CSV)}
+Reuters-21578 documents use SGML tags where articles are bounded by \texttt{<REUTERS>} and \texttt{</REUTERS>}.
 \begin{itemize}
-    \item \textbf{Automate d'extraction par détection d'indices :} Plutôt que d'employer un parseur DOM lourd ou des regex probabilistes, la fonction \texttt{parse\_sgm()} analyse le flux brut caractère par caractère au moyen de pointeurs glissants (\texttt{str.find}).
-    \item \textbf{Extraction des champs critiques :} Pour chaque document, le parseur isole l'identifiant canonique \texttt{NEWID}, la date \texttt{<DATE>}, le titre de la dépêche \texttt{<TITLE>} et le corps textuel principal \texttt{<BODY>}.
-    \item \textbf{Résilience syntaxique :} Gestion des balises orphelines, des dépêches financières sans titre, et conversion sécurisée des entités SGML (ex. \texttt{\&lt;}, \texttt{\&gt;}, \texttt{\&amp;}).
+    \item \textbf{State Scanning with Index Pointers:} Instead of regex patterns or DOM trees, \texttt{parse\_sgm()} iterates through the text buffer using boundary markers (\texttt{str.find}).
+    \item \textbf{Field Extraction:} Extracts \texttt{NEWID}, publication date \texttt{<DATE>}, article headline \texttt{<TITLE>}, and story body \texttt{<BODY>}.
+    \item \textbf{Robustness:} Handles missing titles, unclosed tags, and converts SGML character entities (e.g., \texttt{\&lt;}, \texttt{\&gt;}, \texttt{\&amp;}).
 \end{itemize}
 
-\subsection{2. Pipeline de Prétraitement Linguistique (NLP)}
-La classe \texttt{NLPPipeline} permet d'enchaîner dynamiquement 5 opérations élémentaires codées à la main :
+\subsection{2. Natural Language Preprocessing Pipeline (NLP)}
+The \texttt{NLPPipeline} class sequences five hand-coded operations:
 
-\subsubsection{a) Tag Cleaning (Nettoyage des Balises)}
-Implémenté via un \textbf{automate à états finis à 2 états} :
+\subsubsection{a) Tag Cleaning}
+Implemented as a **2-state deterministic finite automaton (DFA)**:
 \begin{equation}
 \delta(s, c) = \begin{cases} 
-\text{IN\_TAG}, & \text{si } c = \text{'<'} \\
-\text{TEXT}, & \text{si } s = \text{IN\_TAG et } c = \text{'>'} \\
-s, & \text{sinon}
+\text{IN\_TAG}, & \text{if } c = \text{'<'} \\
+\text{TEXT}, & \text{if } s = \text{IN\_TAG and } c = \text{'>'} \\
+s, & \text{otherwise}
 \end{cases}
 \end{equation}
-Seuls les caractères émis dans l'état \texttt{TEXT} sont conservés. Les entités typographiques (\texttt{\&lt;}, \texttt{\&gt;}, \texttt{\&amp;}, \texttt{\&quot;}) sont converties manuellement.
+Only characters received in the \texttt{TEXT} state are retained.
 
-\subsubsection{b) Normalisation Lexicale}
-Opération de mise en minuscules (\texttt{lower()}), suppression manuelle des signes de ponctuation au moyen d'une table de translation de caractères construite à partir de \texttt{string.punctuation}, et découpage en jetons (\textit{tokenization}) sur les caractères d'espacement.
+\subsubsection{b) Lexical Normalization}
+Converts characters to lowercase (\texttt{lower()}), strips punctuation characters using translation mapping derived from \texttt{string.punctuation}, and performs whitespace tokenization.
 
-\subsubsection{c) Stopwords Removal (Élimination des Mots Vides)}
-Filtrage des jetons non discriminants à l'aide d'un dictionnaire manuel de hachage (\texttt{DEFAULT\_STOPWORDS}) regroupant les déterminants, prépositions, pronoms et verbes auxiliaires anglais (environ 120 termes), sans jamais requérir au corpus stopwords de NLTK.
+\subsubsection{c) Stopwords Removal}
+Filters out non-content words using an embedded hash set of approximately 120 English grammatical and functional terms (\texttt{DEFAULT\_STOPWORDS}) without importing NLTK.
 
-\subsubsection{d) Stemming (Racinisation Algorithmique de Porter)}
-Pour satisfaire à la contrainte de codage manuel sans bibliothèque, nous avons implémenté un extracteur morphologique suffixal inspiré de l'algorithme de Martin Porter :
+\subsubsection{d) Stemming (Porter-Style Suffix Stripping)}
+Implements rule-based morphological suffix reduction:
 \begin{itemize}
-    \item Règle 1 : Normalisation des formes plurielles (\texttt{sses} $\to$ \texttt{ss}, \texttt{ies} $\to$ \texttt{i}, \texttt{s} $\to$ $\emptyset$).
-    \item Règle 2 : Réduction des terminaisons verbales passées et progressives (\texttt{eed} $\to$ \texttt{ee}, \texttt{ed} $\to$ $\emptyset$, \texttt{ing} $\to$ $\emptyset$).
-    \item Règle 3 : Simplification des suffixes dérivationnels fréquents (\texttt{tional} $\to$ \texttt{tion}, \texttt{ization} $\to$ \texttt{ize}, \texttt{ation} $\to$ \texttt{ate}, \texttt{fulness} $\to$ \texttt{ful}, \texttt{ness} $\to$ $\emptyset$).
+    \item Plural normalization (\texttt{sses} $\to$ \texttt{ss}, \texttt{ies} $\to$ \texttt{i}, \texttt{s} $\to$ $\emptyset$).
+    \item Past tense and progressive suffixes (\texttt{eed} $\to$ \texttt{ee}, \texttt{ed} $\to$ $\emptyset$, \texttt{ing} $\to$ $\emptyset$).
+    \item Common derivational suffixes (\texttt{tional} $\to$ \texttt{tion}, \texttt{ization} $\to$ \texttt{ize}, \texttt{ation} $\to$ \texttt{ate}, \texttt{ness} $\to$ $\emptyset$).
 \end{itemize}
 
-\subsubsection{e) Lemmatisation Dictionnaire}
-Mise en correspondance des formes fléchies irrégulières (formes verbales fortes, pluriels irréguliers) avec leur lemme canonique à travers un dictionnaire prédéfini (\texttt{DEFAULT\_LEMMA\_DICT} couvrant des associations comme \texttt{"went"} $\to$ \texttt{"go"}, \texttt{"ran"} $\to$ \texttt{"run"}, \texttt{"corpora"} $\to$ \texttt{"corpus"}).
+\subsubsection{e) Dictionary Lemmatization}
+Maps irregular past tenses and non-standard plurals to canonical lemma forms using a comprehensive dictionary lookup table (\texttt{DEFAULT\_LEMMA\_DICT}, e.g., \texttt{"went"} $\to$ \texttt{"go"}, \texttt{"corpora"} $\to$ \texttt{"corpus"}).
 
-\subsubsection{f) Validation Rigoureuse de l'Ordonnancement}
-La méthode \texttt{\_validate\_order()} interdit les incohérences linguistiques :
+\subsubsection{f) Execution Order Validation}
+The pipeline enforces linguistic rules via \texttt{\_validate\_order()}:
 \begin{itemize}
-    \item \texttt{tag\_cleaning} doit obligatoirement précéder la \texttt{normalization} (pour éviter qu'une balise en minuscules contamine le texte brut).
-    \item \texttt{normalization} doit précéder les étapes opérant au niveau token (\texttt{stopwords}, \texttt{stemming}, \texttt{lemmatization}).
-    \item Les doublons d'étapes au sein de la même chaîne sont formellement rejetés.
+    \item \texttt{tag\_cleaning} must precede \texttt{normalization} (preventing lowercase tags from corrupting text).
+    \item \texttt{normalization} must precede token-level operations (\texttt{stopwords}, \texttt{stemming}, \texttt{lemmatization}).
+    \item Duplicate operations in the execution chain are rejected with an explicit error.
 \end{itemize}
 
-\subsection{3. Modélisation Vectorielle et Calcul des Index Multi-Modèles}
-Le moteur calcule pour l'ensemble du corpus de $N$ documents et un vocabulaire de taille $V$ l'ensemble des matrices selon les définitions canoniques de la Recherche d'Information :
+\subsection{3. Multi-Model Vector Indexing}
+For a corpus of $N$ documents and a vocabulary of $V$ distinct terms, the engine computes weights according to canonical Information Retrieval definitions:
 
 \begin{table}[htbp]
 \centering
 \small
 \begin{tabular}{lll}
 \toprule
-\textbf{Modèle} & \textbf{Formulation Mathématique} & \textbf{Interprétation Sémantique} \\
+\textbf{Model} & \textbf{Mathematical Formulation} & \textbf{Interpretation} \\
 \midrule
-\textbf{BoW (Binaire)} & $w_{i,j} = \begin{cases} 1 & \text{si } t_i \in d_j \\ 0 & \text{sinon} \end{cases}$ & Présence ou absence stricte du terme dans le document. \\
+\textbf{BoW (Binary)} & $w_{i,j} = \begin{cases} 1 & \text{if } t_i \in d_j \\ 0 & \text{otherwise} \end{cases}$ & Strict term presence or absence. \\
 \addlinespace
-\textbf{F (Fréquence)} & $w_{i,j} = tf_{i,j}$ & Fréquence brute d'apparition du terme $t_i$ dans $d_j$. \\
+\textbf{F (Frequency)} & $w_{i,j} = tf_{i,j}$ & Raw count of occurrences of term $t_i$ in document $d_j$. \\
 \addlinespace
-\textbf{TF (Normalisé)} & $TF_{i,j} = \frac{tf_{i,j}}{\max_{k \in d_j} tf_{k,j}}$ & Fréquence pondérée par la fréquence maximale du document. \\
+\textbf{TF (Normalized)} & $TF_{i,j} = \frac{tf_{i,j}}{\max_{k \in d_j} tf_{k,j}}$ & Term frequency normalized by maximum term frequency in $d_j$. \\
 \addlinespace
-\textbf{TF-IDF} & $w_{i,j} = TF_{i,j} \times \log_{10}\left(\frac{N}{df_i}\right)$ & Poids discriminant global combinant rareté et représentativité. \\
+\textbf{TF-IDF} & $w_{i,j} = TF_{i,j} \times \log_{10}\left(\frac{N}{df_i}\right)$ & Discriminative weighting balancing term frequency and rarity. \\
 \bottomrule
 \end{tabular}
-\caption{Formulations mathématiques des quatre modèles vectoriels implémentés}
+\caption{Mathematical formulations of the four implemented IR models}
 \label{tab:model_formulas}
 \end{table}
 
-\subsection{4. Structures de Données Creuses et Listes Inversées}
-Une collection textuelle présentant une sparsité supérieure à 95\%, stocker des matrices denses $V \times N$ conduirait à un gaspillage massif de mémoire. Nous avons conçu une architecture matricielle \textbf{creuse} par dictionnaires de tables de hachage imbriquées :
+\subsection{4. Sparse Representations and Inverted Index}
+Given typical text sparsity exceeding 95\%, dense $V \times N$ matrices would waste significant memory. The engine uses sparse nested hash tables:
 \begin{itemize}
-    \item \textbf{Matrice Document-Terme :} \texttt{Dict[str, Dict[str, float]]} faisant correspondre à chaque terme $t_i$ un sous-dictionnaire des seuls documents $d_j$ où le poids est non nul.
-    \item \textbf{Matrice Terme-Document :} \texttt{Dict[str, Dict[str, float]]} faisant correspondre à chaque document $d_j$ la liste associative de ses termes non nuls.
-    \item \textbf{Liste Inversée (Inverted Index) :} \texttt{Dict[str, List[Tuple[str, float]]]} où chaque terme pointe directement vers sa liste de postings triée par identifiant de document ou par poids décroissant.
+    \item \textbf{Document-Term Matrix:} \texttt{Dict[str, Dict[str, float]]} mapping term $t_i$ to documents $d_j$ with non-zero weights.
+    \item \textbf{Term-Document Matrix:} \texttt{Dict[str, Dict[str, float]]} mapping document $d_j$ to its non-zero terms.
+    \item \textbf{Inverted Index:} \texttt{Dict[str, List[Tuple[str, float]]]} mapping each term to its posting list sorted by weight.
 \end{itemize}
 
-\subsection{5. Mesure Récursive de l'Empreinte RAM (Monitoring)}
-Contrairement à une invocation superficielle de \texttt{sys.getsizeof()} qui ne calcule que la taille de l'enveloppe extérieure d'un dictionnaire, la méthode \texttt{\_deep\_sizeof()} parcourt récursivement tous les conteneurs (dictionnaires, listes, tuples, ensembles, chaînes) avec une table de visite pour prévenir les références cycliques. Elle fournit ainsi l'évaluation exacte, au kilo-octet près, de la mémoire réelle consommée par chaque type d'index.
+\subsection{5. Recursive RAM Measurement}
+Standard \texttt{sys.getsizeof()} only measures the container pointer table, ignoring nested contents. The recursive \texttt{\_deep\_sizeof()} method traverses all nested containers and string payloads, tracking visited object IDs (\texttt{seen\_ids}) to accurately report true RAM utilization in kilobytes and megabytes.
 
 % ------------------------------------------------------------------------------
-% 4. PRÉSENTATION DE L'INTERFACE UTILISATEUR
+% 4. USER INTERFACE & FUNCTIONAL WALKTHROUGH
 % ------------------------------------------------------------------------------
-\section{Interface Utilisateur \& Présentation Fonctionnelle}
+\section{User Interface \& Functional Walkthrough}
 
-L'interface administrateur se distingue par son ergonomie professionnelle, conçue selon les codes visuels des logiciels d'ingénierie moderne (palette Tailwind slate/blue, micro-interactions, typographie monospacée pour les métriques).
+The web interface is engineered with a modern aesthetic, responsive feedback, and an engineering-grade layout.
 
-\subsection{Description des Modules Fonctionnels}
+\subsection{Module Capabilities}
 
-\subsubsection{1. Module d'Ingestion des Données (Disque Local)}
-Conformément aux exigences du cahier des charges (\textit{"charger les documents depuis le disque local"}), l'administrateur dispose d'une zone dédiée d'exploration :
+\subsubsection{1. Local Data Ingestion}
+Compliant with Section 2.2.a of the specification (\textit{"charger les documents depuis le disque local"}):
 \begin{itemize}
-    \item Explorateur natif permettant de sélectionner un fichier local (\texttt{.sgm} ou \texttt{.csv}).
-    \item Zone de \textit{Drag-and-Drop} fluide permettant de déposer directement les archives Reuters.
-    \item Contrôle paramétrique de la volumétrie : sélection du nombre maximal de documents à indexer ou bascule en mode \textbf{Tous (Illimité)}.
-    \item Badge d'état indiquant le volume ingéré, la taille en méga-octets et le statut du chargement.
+    \item Direct drag-and-drop file upload zone supporting Reuters \texttt{.sgm} and \texttt{.csv} files.
+    \item File input picker with document size and readiness indicators.
+    \item Document volume slider/number input with an \textbf{All (Unlimited)} toggle.
 \end{itemize}
 
-\subsubsection{2. Configurateur de Pipeline NLP Dynamique}
-L'interface permet de définir sur-mesure la chaîne de traitement :
+\subsubsection{2. Dynamic NLP Pipeline Configurator}
+Provides granular control over textual transformations:
 \begin{itemize}
-    \item \textbf{Activation sélective :} Chaque étape (Tag Cleaning, Normalisation, Stopwords, Stemming, Lemmatisation) peut être activée ou désactivée d'un clic.
-    \item \textbf{Réordonnancement interactif :} Glisser-déposer à la souris (\textit{HTML5 Drag and Drop}) ou utilisation de boutons fléchés haut/bas pour réorganiser la séquence d'exécution.
-    \item \textbf{Boutons Presets (1-Clic) :}
-    \begin{itemize}
-        \item \textit{Standard Porter (Recommandé) :} Tag Cleaning $\to$ Normalisation $\to$ Stopwords $\to$ Stemming.
-        \item \textit{Lemmatization Focus :} Tag Cleaning $\to$ Normalisation $\to$ Stopwords $\to$ Lemmatisation.
-        \item \textit{Full Chain (5 étapes) :} Application de l'ensemble des modules.
-        \item \textit{Minimal :} Nettoyage et suppression des mots-vides uniquement.
-    \end{itemize}
-    \item \textbf{Visualiseur de Flux (Execution Flow) :} Bannière en temps réel résumant la chronologie active (ex. \texttt{tag\_cleaning $\to$ normalization $\to$ stopwords $\to$ stemming}).
+    \item Checkbox activation for each of the 5 preprocessing stages.
+    \item Interactive drag-and-drop and arrow buttons for sequence reordering.
+    \item 1-Click preset buttons (\textit{Standard Porter}, \textit{Lemmatization Focus}, \textit{Full Chain}, \textit{Minimal}).
+    \item Live \textbf{Execution Flow} breadcrumb visualizer.
 \end{itemize}
 
-\subsubsection{3. Tableau de Bord de Monitoring \& Jauge RAM Bicolore}
-Une rangée de cartes KPI affiche immédiatement après le traitement :
+\subsubsection{3. Monitoring Dashboard \& Dual-Color RAM Progress Bar}
+Provides real-time post-indexing KPIs:
 \begin{enumerate}
-    \item Le nombre effectif de documents indexés.
-    \item La dimension du vocabulaire unique extrait.
-    \item Le nombre total de jetons traités et la moyenne de jetons par article.
-    \item \textbf{La consommation mémoire RAM avec barre bicolore :} Un indicateur visuel partitionne la RAM totale consommée entre la part occupée par les \textbf{Matrices creuses} (en bleu) et celle occupée par les \textbf{Listes Inversées} (en vert émeraude). Cette comparaison concrétise immédiatement l'intérêt algorithmique de l'index inversé par rapport aux matrices.
+    \item Total indexed document count.
+    \item Vocabulary size (unique term dimensions).
+    \item Total token count and average tokens per document.
+    \item **Dual-color RAM memory usage bar:** Visualizes memory allocated to **Matrices** (blue bar) versus **Inverted Indexes** (emerald green bar), clearly illustrating the structural efficiency of posting lists.
 \end{enumerate}
 
-\subsubsection{4. Explorateur Multi-Modèles et Navigation Tabulaire}
-L'administrateur explore les 12 structures générées à travers une table de données dynamique :
+\subsubsection{4. Multi-Model Explorer \& Tabular Navigation}
+Explores all 12 generated structures:
 \begin{itemize}
-    \item \textbf{Onglets Modèles :} Bascule instantanée entre BoW, F, TF normalisé et TF-IDF.
-    \item \textbf{Sélecteur de Structure :} Choix entre Matrice Document-Terme, Matrice Terme-Document et Index Inversé.
-    \item \textbf{Heatmap de Poids :} Les coefficients non nuls sont mis en exergue par des badges bleus, tandis que les valeurs nulles apparaissent sous forme de tirets (\texttt{---}), rendant lisible la structure creuse.
-    \item \textbf{Filtre de Recherche \& Pagination :} Barre de recherche textuelle avec bouton de réinitialisation instantanée (\texttt{$\times$}) et pagination serveur fluide (Page $X$ sur $Y$).
+    \item Model selector tabs for BoW, Frequency, TF Normalized, and TF-IDF.
+    \item Structure selector for Document-Term Matrix, Term-Document Matrix, and Inverted Index.
+    \item Weight heatmaps where non-zero entries feature blue badge styling and zeros display as subtle dashes (\texttt{---}).
+    \item Real-time term search filter with instant clear button (\texttt{$\times$}) and server-side pagination.
 \end{itemize}
 
-\subsubsection{5. Inspecteur d'Articles Reuters Bruts (Document Inspector)}
-Un tiroir modal interactif permet à l'administrateur de naviguer article par article dans la collection brute ingérée, affichant l'identifiant \texttt{DOC\_ID}, la date de publication, le titre d'origine et le texte intégral (\texttt{<BODY>}). Ce composant apporte la preuve formelle que le parseur traite des dépêches réelles.
+\subsubsection{5. Raw Reuters Document Inspector}
+A modal drawer allows the administrator to inspect ingested raw Reuters news stories, displaying \texttt{DOC\_ID}, publication date, headline (\texttt{<TITLE>}), and body text (\texttt{<BODY>}).
 
-\subsubsection{6. Sérialisation et Sauvegarde Disque}
-Un panneau d'exportation permet de sérialiser les structures générées sur le disque dur local :
+\subsubsection{6. Disk Serialization}
+Persists all structures to local disk with one click:
 \begin{itemize}
-    \item 13 fichiers au format \textbf{JSON} détaillant métadonnées, matrices et listes de postings.
-    \item Un bundle binaire universel \textbf{\texttt{.pkl}} encapsulant matrices, index inversés, vocabulaire et paramètres pour le chargement instantané en Phase 2.
+    \item 13 JSON files containing metadata, matrices, and posting lists.
+    \item A single binary archive (\texttt{reuters\_index\_bundle.pkl}) ready for Phase 2 loading.
 \end{itemize}
 
 % ------------------------------------------------------------------------------
-% 5. ANALYSE DE CONFORMITÉ & BILAN DU CAHIER DES CHARGES
+% 5. COMPLIANCE & SPECIFICATION AUDIT
 % ------------------------------------------------------------------------------
-\section{Analyse de Conformité avec le Cahier des Charges}
+\section{Compliance Analysis with Project Specifications}
 
-Le tableau synthétique ci-dessous consigne l'état d'avancement rigoureux par rapport aux spécifications exigées par l'énoncé du projet.
+Table~\ref{tab:compliance} summarizes the implementation status against all requirements in the assignment syllabus.
 
 \begin{table}[htbp]
 \centering
 \small
 \begin{tabular}{lp{8.5cm}c}
 \toprule
-\textbf{Réf. PDF} & \textbf{Spécification Fonctionnelle Exigée} & \textbf{Statut} \\
+\textbf{Ref.} & \textbf{Mandatory Requirement} & \textbf{Status} \\
 \midrule
-\S 2.1 & Corpus Reuters-21578 (formats SGML et CSV supportés) & \textbf{100\% Réalisé} \\
-\S 2.2.a & Chargement des documents depuis le disque local (Explorateur / Drag-Drop) & \textbf{100\% Réalisé} \\
-\S 2.2.b & Pipeline dynamique : 5 étapes activables, réordonnables à la souris & \textbf{100\% Réalisé} \\
-\S 2.2.c & Déclenchement de l'indexation par bouton "Générer les Index" & \textbf{100\% Réalisé} \\
-\S 2.2.d & Génération multi-modèles (BoW, F, TF normalisé, TF-IDF) & \textbf{100\% Réalisé} \\
-\S 2.2.d & Production des 3 structures : Matrice Doc-Terme, Terme-Doc, Index Inversé & \textbf{100\% Réalisé} \\
-\S 2.2.e & Monitoring : vocabulaire, documents indexés, RAM Matrice vs Liste Inversée & \textbf{100\% Réalisé} \\
-\S 2.2.f & Sérialisation locale des index (formats texte/JSON et binaire .pkl) & \textbf{100\% Réalisé} \\
-\S 3 & Programmation "From Scratch" (Zéro NLTK, spaCy, sklearn, gensim, regex) & \textbf{100\% Conforme} \\
-\S 3 & Architecture Modèle-Vue-Contrôleur (MVC) modulaire & \textbf{100\% Conforme} \\
+\S 2.1 & Reuters-21578 dataset ingestion (SGML and CSV formats) & \textbf{100\% Complete} \\
+\S 2.2.a & Data selection from local disk (File explorer / Drag-and-drop) & \textbf{100\% Complete} \\
+\S 2.2.b & Dynamic NLP pipeline: 5 steps selectable and reorderable & \textbf{100\% Complete} \\
+\S 2.2.c & Index generation triggered by "Generate Indexes" button & \textbf{100\% Complete} \\
+\S 2.2.d & Multi-model indexing (BoW, Frequency, TF normalized, TF-IDF) & \textbf{100\% Complete} \\
+\S 2.2.d & All 3 output structures: Doc-Term, Term-Doc, Inverted Index & \textbf{100\% Complete} \\
+\S 2.2.e & Post-indexing monitoring (Vocab, docs, RAM Matrices vs. Inverted Index) & \textbf{100\% Complete} \\
+\S 2.2.f & Local disk serialization (JSON and binary .pkl formats) & \textbf{100\% Complete} \\
+\S 3 & "From Scratch" implementation (Zero NLTK, spaCy, sklearn, gensim, regex) & \textbf{100\% Verified} \\
+\S 3 & Modular Model-View-Controller (MVC) architecture & \textbf{100\% Verified} \\
 \midrule
-\S 5 & Phase 2 : Interface Recherche Client, matching cosinus, Top-$K$ & \textit{Réservé Phase 2} \\
+\S 5 & Phase 2: Client search UI, cosine similarity matching, Top-$K$ ranking & \textit{Reserved for Phase 2} \\
 \bottomrule
 \end{tabular}
-\caption{Bilan de conformité fonctionnelle et technique}
+\caption{Functional and technical compliance matrix}
 \label{tab:compliance}
 \end{table}
 
-\subsection{Justification Concernant les Fonctionnalités Non Réalisées}
-Aucune fonctionnalité relevant du périmètre de la \textbf{Partie 1 (Module Administrateur)} n'a été omise ; toutes les exigences de la section 2.2 ont été intégralement programmées et validées.
+\subsection{Justification of Non-Implemented Features}
+All functional and architectural requirements specified for **Part 1 (Administrator Module)** have been completely implemented and validated.
 
-Les aspects relatifs au \textbf{Module Client/Guest} (saisie de requêtes par un visiteur non authentifié, algorithme de matching par similarité cosinus ou produit scalaire, et filtrage Top-$K$) constituent les livrables spécifiquement dévolus au prochain TP (Phase 2), comme stipulé en section 5 du document de cours. L'ensemble des structures de données de la Phase 1 a toutefois été conçu de manière à alimenter immédiatement cette seconde phase.
-
-% ------------------------------------------------------------------------------
-% 6. DIFFICULTÉS MAJEURES ET SOLUTIONS APPORTÉES
-% ------------------------------------------------------------------------------
-\section{Difficultés Majeures Rencontrées \& Solutions Apportées}
-
-Durant les quatre semaines de conception, l'interdiction d'utiliser des bibliothèques de haut niveau a imposé la résolution de plusieurs défis algorithmiques :
-
-\subsection{1. Parsing Robuste du Format SGML Historique}
-\textbf{Difficulté :} Le corpus Reuters-21578 contient des irrégularités structurelles sévères : balises fermantes manquantes dans certains articles, corps de dépêches contenant des caractères spéciaux ou des balises imbriquées non standard. L'interdiction d'utiliser \texttt{xml.etree} ou des expressions régulières rendait le découpage délicat.\\
-\textbf{Solution :} Conception d'un parseur textuel itératif fondé sur la recherche délimitée des balises maîtresses \texttt{<REUTERS>} et d'un extracteur d'attributs basé sur la tokenisation d'en-tête. La gestion d'une valeur par défaut sécurisée pour chaque métadonnée garantit qu'aucun document n'est rejeté intempestivement.
-
-\subsection{2. Racinisation (Stemming) Sans NLTK}
-\textbf{Difficulté :} Porter Stemmer est un algorithme complexe comportant de multiples phases de réduction conditionnées par la mesure de consonne/voyelle (\textit{measure $m$}). Implémenter l'intégralité du papier de 1980 de Martin Porter sans librairie externe représentait un risque de régression.\\
-\textbf{Solution :} Développement d'une version pragmatique par étapes successives opérant sur les suffixes morphologiques les plus discriminants de la langue anglaise (gestion des pluriels, des passés réguliers, des participes présents et des suffixes dérivationnels usuels). Des tests unitaires exhaustifs ont permis de calibrer les remplacements sans sur-racinisation (\textit{over-stemming}).
-
-\subsection{3. Calcul d'Empreinte RAM des Structures Imbriquées}
-\textbf{Difficulté :} En Python, la fonction native \texttt{sys.getsizeof()} retourne uniquement l'espace mémoire alloué au pointeur de tête du conteneur (ex. 64 octets pour un dictionnaire), ignorant totalement la mémoire des sous-dictionnaires et des chaînes de caractères contenues.\\
-\textbf{Solution :} Implémentation de la fonction récursive \texttt{\_deep\_sizeof()} qui maintient un ensemble des identifiants d'objets déjà inspectés (\texttt{seen\_ids}) et cumule la taille de tous les scalaires et conteneurs imbriqués. Cette approche offre une transparence totale lors de la comparaison de mémoire exigée entre matrices et listes inversées.
-
-\subsection{4. Validation Dynamique de l'Ordre du Pipeline}
-\textbf{Difficulté :} L'interface permettant de réordonner les étapes par simple glisser-déposer, l'administrateur pouvait accidentellement placer le \textit{Stemming} avant la \textit{Normalisation}, produisant un comportement aberrant.\\
-\textbf{Solution :} Établissement d'une matrice de dépendances linguistiques dans le contrôleur. Si un ordre invalide est soumis au backend, l'API intercepte la requête, déclenche une exception HTTP 400 explicite et l'interface utilisateur informe l'administrateur via une notification flottante (Toast) descriptive.
+User-facing search capabilities (free-text query input by unauthenticated guests, cosine similarity ranking, and Top-$K$ retrieval) belong specifically to **Phase 2 (Client Module)** as outlined in Section 5 of the assignment syllabus. The underlying data structures generated in Part 1 were specifically designed to support Phase 2 without modification.
 
 % ------------------------------------------------------------------------------
-% 7. ANTICIPATION ET PRÉPARATION DE LA PHASE 2
+% 6. MAJOR CHALLENGES & SOLUTIONS
 % ------------------------------------------------------------------------------
-\section{Anticipation et Préparation de la Phase 2 (Pour Aller Plus Loin)}
+\section{Major Challenges Encountered \& Technical Solutions}
 
-Conformément aux conseils d'architecture prodigués en section 5 du cahier des charges, le projet a été développé de manière à s'interfacer naturellement avec le futur \textbf{Module Client/Guest} :
+\subsection{1. Parsing Heterogeneous SGML Without External Libraries}
+\textbf{Challenge:} Reuters-21578 contains formatting anomalies such as unclosed tags, missing headlines, and special characters. Without regex or XML parsers, robust extraction required careful stream handling.\\
+\textbf{Solution:} Designed an iterative pointer-based scanner using delimiter anchors for \texttt{<REUTERS>} blocks and string slicing for attribute identification, with graceful fallbacks for missing fields.
 
+\subsection{2. Morphological Stemming Without NLTK}
+\textbf{Challenge:} The Porter Stemmer relies on vowel-consonant measures and multi-step conditional reductions. Implementing it without third-party libraries carried risks of over-stemming.\\
+\textbf{Solution:} Developed a modular rule engine targeting high-frequency English inflectional and derivational suffixes, validated through unit tests on Reuters vocabulary subsets.
+
+\subsection{3. True RAM Footprint Evaluation of Nested Structures}
+\textbf{Challenge:} Python's \texttt{sys.getsizeof()} only inspects the outer dictionary pointer, undercounting actual memory usage.\\
+\textbf{Solution:} Implemented a recursive memory calculation function (\texttt{\_deep\_sizeof()}) with an object identity registry (\texttt{seen\_ids}) to ensure complete, cycle-safe RAM auditing.
+
+\subsection{4. Enforcing Pipeline Ordering Integrity}
+\textbf{Challenge:} Permitting free drag-and-drop reordering could allow invalid configurations (e.g., stemming before normalization).\\
+\textbf{Solution:} Added a dependency validation matrix that returns explicit HTTP 400 errors and user notifications whenever an invalid sequence is detected.
+
+% ------------------------------------------------------------------------------
+% 7. ANTICIPATION AND PREPARATION FOR PHASE 2
+% ------------------------------------------------------------------------------
+\section{Preparation and Readiness for Phase 2}
+
+In line with Section 5 of the project syllabus:
 \begin{enumerate}
-    \item \textbf{Réutilisation directe de la chaîne NLP pour les requêtes utilisateur :}
-    Lorsqu'un utilisateur final saisira une requête en langage naturel en Phase 2 (ex. \textit{"crude oil prices in Kuwait"}), celle-ci devra subir exactement le même traitement linguistique que les documents indexés. La classe \texttt{NLPPipeline} dispose déjà de la méthode :
-    \begin{center}
-    \texttt{tokens = pipeline.process\_text(query\_text)}
-    \end{center}
-    garantissant une parfaite harmonie d'espace vectoriel entre requête et documents.
-    
-    \item \textbf{Rechargement instantané des index sans recalcul :}
-    Le module \texttt{models/storage.py} intègre la méthode \texttt{IndexStorage.load\_from\_binary()}, validée par notre banc de test unitaire. En Phase 2, le serveur n'aura besoin que de quelques millisecondes pour charger en mémoire vive l'ensemble des matrices, des listes inversées et des identifiants documents à partir de l'archive \texttt{reuters\_index\_bundle.pkl}.
-    
-    \item \textbf{Calcul Vectoriel du Score de Pertinence :}
-    La structure creuse de nos listes inversées (\texttt{term $\to$ [(doc\_id, weight), ...]}) est déjà optimisée pour l'accumulation rapide des produits scalaires et le calcul de la norme euclidienne pour la similarité cosinus :
+    \item \textbf{Direct NLP Pipeline Reuse for User Queries:}
+    Search queries submitted in Phase 2 can be processed directly via \texttt{pipeline.process\_text(query\_text)}, ensuring identical tokenization and vocabulary alignment.
+    \item \textbf{Instant Binary Index Reloading:}
+    The \texttt{IndexStorage.load\_from\_binary()} function allows the search module to load the entire precomputed indexing suite in milliseconds from \texttt{reuters\_index\_bundle.pkl}.
+    \item \textbf{Vector Space Matching Ready:}
+    The inverted index posting lists (\texttt{term $\to$ [(doc\_id, weight), ...]}) are structured for efficient dot product accumulation and cosine similarity computation:
     \begin{equation}
     \text{Sim}(Q, D_j) = \frac{\sum_{t \in Q \cap D_j} w_{t,Q} \cdot w_{t,j}}{\sqrt{\sum_{t \in Q} w_{t,Q}^2} \cdot \sqrt{\sum_{t \in D_j} w_{t,j}^2}}
     \end{equation}
@@ -442,10 +445,8 @@ Conformément aux conseils d'architecture prodigués en section 5 du cahier des 
 % ------------------------------------------------------------------------------
 \section{Conclusion}
 
-Ce projet de Recherche d'Information (Partie 1/3) a permis de concevoir, d'implémenter et de tester avec succès une plateforme administrative complète d'indexation dynamique multi-modèles. 
+This project successfully implemented a complete, dynamic, and multi-model Information Retrieval administrator interface. By strictly adhering to the **"From Scratch"** requirement, all underlying IR principles---text stream ingestion, pipeline design, sparse vector modeling (BoW, Frequency, TF, TF-IDF), and memory monitoring---were constructed and verified transparently. 
 
-En respectant rigoureusement la philosophie du développement \textbf{"From Scratch"}, ce travail a mis en lumière les mécanismes fondamentaux de la recherche d'information : manipulation directe de flux textuels, conception de chaînes de traitement linguistique résilientes, algèbre vectorielle appliquée (BoW, Fréquence, TF normalisé, TF-IDF), structures de données creuses optimisées et sérialisation binaire.
-
-L'architecture MVC découplée et l'interface réactive React/Tailwind fournissent à l'administrateur un outil d'inspection et de supervision performant, tout en posant des fondations solides et immédiatement opérationnelles pour la réalisation de la Phase 2.
+The decoupled MVC architecture and responsive React frontend provide an effective administrative tool while establishing a solid, tested foundation for the Phase 2 client search engine.
 
 \end{document}
