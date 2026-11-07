@@ -9,6 +9,7 @@
 \usepackage{geometry}
 \geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 \usepackage{graphicx}
+\graphicspath{{./}{./figures/}{figures/}}
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{listings}
@@ -219,7 +220,7 @@ The repository cleanly separates core business logic, API orchestration, and use
         \item \texttt{AdminController.py}: Central orchestrator managing state, dataset loading, indexing lifecycle, and table pagination.
         \item \texttt{app.py}: FastAPI REST API server exposing endpoints for file upload, pipeline configuration, status checks, and data views.
     \end{itemize}
-    \item \textbf{View Layer (\texttt{frontend/}):} Single Page Application built with React 19, TypeScript, Vite 8, and Tailwind CSS, featuring local drag-and-drop file ingestion, visual drag-and-drop pipeline reordering, matrix heatmaps, and a raw article inspector.
+    \item \textbf{View Layer (\texttt{frontend/}):} Single Page Application built with React 19, TypeScript, Vite 8, and Tailwind CSS, featuring local drag-and-drop file ingestion, visual drag-and-drop pipeline reordering, and matrix heatmaps.
 \end{itemize}
 
 % ------------------------------------------------------------------------------
@@ -315,53 +316,75 @@ Standard \texttt{sys.getsizeof()} only measures the container pointer table, ign
 % ------------------------------------------------------------------------------
 \section{User Interface \& Functional Walkthrough}
 
-The web interface is engineered with a modern aesthetic, responsive feedback, and an engineering-grade layout.
+The web interface is engineered with a modern aesthetic, responsive feedback, and an engineering-grade layout. The following subsections present the screenshots of the four core modules mandated by the project requirements.
 
-\subsection{Module Capabilities}
-
-\subsubsection{1. Local Data Ingestion}
-Compliant with Section 2.2.a of the specification (\textit{"charger les documents depuis le disque local"}):
+\subsection{1. Local Data Ingestion (Section 2.2.a)}
+Compliant with Section 2.2.a of the specification (\textit{"charger les documents depuis le disque local"}), the administrator accesses an ingestion module supporting local file selection:
 \begin{itemize}
-    \item Direct drag-and-drop file upload zone supporting Reuters \texttt{.sgm} and \texttt{.csv} files.
-    \item File input picker with document size and readiness indicators.
-    \item Document volume slider/number input with an \textbf{All (Unlimited)} toggle.
+    \item File picker and drag-and-drop zone accepting Reuters-21578 files (\texttt{.csv} and \texttt{.sgm}).
+    \item File size indicator and ready status confirmation.
+    \item Configurable document volume selector (e.g., 50 documents or unlimited mode).
 \end{itemize}
 
-\subsubsection{2. Dynamic NLP Pipeline Configurator}
-Provides granular control over textual transformations:
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.68\textwidth]{data_ingestion.png}
+\caption{Data Ingestion Module: Ingestion of the Reuters-21578 collection from local disk with document limit controls.}
+\label{fig:data_ingestion}
+\end{figure}
+
+\subsection{2. Dynamic NLP Pipeline Configurator (Section 2.2.b)}
+Provides complete interactive control over textual transformations:
 \begin{itemize}
-    \item Checkbox activation for each of the 5 preprocessing stages.
-    \item Interactive drag-and-drop and arrow buttons for sequence reordering.
+    \item Checkbox activation for each of the five preprocessing stages.
+    \item Drag-and-drop sequence reordering (with secondary up/down buttons).
     \item 1-Click preset buttons (\textit{Standard Porter}, \textit{Lemmatization Focus}, \textit{Full Chain}, \textit{Minimal}).
-    \item Live \textbf{Execution Flow} breadcrumb visualizer.
+    \item Live \textbf{Execution Flow} breadcrumb displaying the active sequence.
 \end{itemize}
 
-\subsubsection{3. Monitoring Dashboard \& Dual-Color RAM Progress Bar}
-Provides real-time post-indexing KPIs:
-\begin{enumerate}
-    \item Total indexed document count.
-    \item Vocabulary size (unique term dimensions).
-    \item Total token count and average tokens per document.
-    \item **Dual-color RAM memory usage bar:** Visualizes memory allocated to **Matrices** (blue bar) versus **Inverted Indexes** (emerald green bar), clearly illustrating the structural efficiency of posting lists.
-\end{enumerate}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.72\textwidth]{nlp_pipeline.png}
+\caption{Dynamic NLP Pipeline: Configurable order, quick presets, and live execution sequence visualizer.}
+\label{fig:nlp_pipeline}
+\end{figure}
 
-\subsubsection{4. Multi-Model Explorer \& Tabular Navigation}
-Explores all 12 generated structures:
+\subsection{3. RAM Monitoring \& Dual-Color Progress Bar (Section 2.2.e)}
+Provides real-time post-indexing monitoring metrics:
 \begin{itemize}
-    \item Model selector tabs for BoW, Frequency, TF Normalized, and TF-IDF.
-    \item Structure selector for Document-Term Matrix, Term-Document Matrix, and Inverted Index.
-    \item Weight heatmaps where non-zero entries feature blue badge styling and zeros display as subtle dashes (\texttt{---}).
-    \item Real-time term search filter with instant clear button (\texttt{$\times$}) and server-side pagination.
+    \item Total RAM memory footprint calculated via recursive deep inspection.
+    \item **Dual-color progress bar:** Directly visualizes the memory occupied by the **Matrices** (blue bar) compared against the **Inverted Index** (emerald green bar).
+    \item Immediate empirical verification that inverted posting lists consume significantly less memory than full term matrices.
 \end{itemize}
 
-\subsubsection{5. Raw Reuters Document Inspector}
-A modal drawer allows the administrator to inspect ingested raw Reuters news stories, displaying \texttt{DOC\_ID}, publication date, headline (\texttt{<TITLE>}), and body text (\texttt{<BODY>}).
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\textwidth]{ram_monitoring.png}
+\caption{RAM Memory Usage KPI Card: Dual-color bar comparing Matrices (blue, 2.257 MB) vs. Inverted Index (green, 1.437 MB).}
+\label{fig:ram_monitoring}
+\end{figure}
 
-\subsubsection{6. Disk Serialization}
+\subsection{4. Multi-Model Explorer \& Tabular Navigation (Section 2.2.d)}
+Allows comprehensive exploration of all 12 generated structures:
+\begin{itemize}
+    \item Model selector tabs: BoW (Binary), Frequency, TF Normalized, and TF-IDF.
+    \item Structure selector: Document-Term Matrix, Term-Document Matrix, and Inverted Index.
+    \item Visual heatmap badges: Non-zero weights are highlighted with blue tags, while zero entries are rendered as clean dashes (\texttt{---}).
+    \item Search filter input and server-side table pagination (Previous / Next).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{data_explorer.png}
+\caption{Multi-Model Data Explorer: Term-Document Matrix (BoW) displaying non-zero weights and pagination controls.}
+\label{fig:data_explorer}
+\end{figure}
+
+\subsection{5. Disk Serialization (Section 2.2.f)}
 Persists all structures to local disk with one click:
 \begin{itemize}
     \item 13 JSON files containing metadata, matrices, and posting lists.
-    \item A single binary archive (\texttt{reuters\_index\_bundle.pkl}) ready for Phase 2 loading.
+    \item A single binary archive (\texttt{reuters\_index\_bundle.pkl}) ready for immediate Phase 2 loading.
 \end{itemize}
 
 % ------------------------------------------------------------------------------
