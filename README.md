@@ -23,7 +23,7 @@ ri part1/
 ├── backend/                          # 🌐 REST API Backend (FastAPI)
 │   └── app.py                        # Exposes the controller to the web frontend (CORS enabled)
 │
-├── frontend/                         # ⚛️ [V]IEW (Figma UI in React 19 + Vite + Tailwind CSS)
+├── frontend/                         # ⚛️ [V]IEW (Modern UI in React 19 + Vite + Tailwind CSS)
 │   ├── src/
 │   │   ├── App.tsx                   # Interactive admin dashboard wired to the FastAPI backend
 │   │   └── index.css                 # Clean engineering aesthetic
