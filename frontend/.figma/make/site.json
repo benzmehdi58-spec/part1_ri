@@ -1,0 +1,10 @@
+{
+  "description": "Manage Reuters-21578 ingestion and NLP indexing, then inspect search models, term matrices, vocabulary, and resource usage in one dashboard.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

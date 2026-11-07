@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: reuters-ir-admin
+    runtime: docker
+    dockerfilePath: Dockerfile
+    plan: free
+    region: frankfurt
